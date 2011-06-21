@@ -212,33 +212,40 @@ node * SortedMerge(node *head1, node * head2)
 	node * result = NULL;
 	node * temp1 = head1;
 	node * temp2 = head2;
-	if(temp1->data < temp2->data){
-		Push(result,temp1->data);
-		temp1 = temp1->next;
-	}
-	else{ 
-		Push(result,temp2->data);
-		temp2 = temp2->next;
-	}
-	node * tail = result;
-	while(temp1)
+	if(temp1->data < temp2->data)
 	{
-		if(temp2 == NULL){
-			Append(result,temp1);
-			break;
-		}
-		if(temp1->data < temp2->data){
-			Push(tail->next,temp1->data);
-			temp1 = temp1->next;
-			tail = tail->next;
-		}
-		else{
-			Push(tail->next,temp2->data);
-			temp2 = temp2->next;
-			tail = tail->next;
-		}
+  	Push(result,temp1->data);
+		temp1 = temp1->next;
+ }
+	else{
+  	Push(result,temp2->data);
+		temp2 = temp2->next;
+ }
+	node * tail = result;
+	while(temp1 && temp2)
+	{
+   	if(temp1->data < temp2->data)
+		{
+		Push(tail->next,temp1->data);
+		temp1 = temp1->next;
+		tail = tail->next;	
 	}
-	if(temp2 != NULL)Append(result,temp2);
+		else{
+    Push(tail->next,temp2->data);
+		temp2 = temp2->next;
+		tail = tail->next;
+  }
+ }
+	while(temp1){
+		Push(tail->next,temp1->data);
+		temp1 = temp1->next;
+		tail = tail->next;
+	}
+	while(temp2){
+		Push(tail->next,temp2->data);
+		temp2 = temp2->next;
+		tail = tail->next;
+	}
 	return result;
 }
 
@@ -315,13 +322,15 @@ int main()
 	//MergeSort(head);i
 	SortedInsert(newHead,-1);
 	SortedInsert(newHead,2);
-	node * result = SortedIntersect(head,newHead);
-	PrintList(head);
+	//PrintList(head);
+	//cout<<endl;
+	//PrintList(newHead);
+	Reverse(newHead);
 	cout<<endl;
 	PrintList(newHead);
 	cout<<endl;
-	PrintList(result);
-	cout<<endl;
+	MergeSort(newHead);
+	PrintList(newHead);
 	return 0;
 
 }
